@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cineasta Kids - Histórias Mágicas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Trebuchet MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #a0e7e5 0%, #a0e7e5 100%);
+            background-attachment: fixed;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Padrão de bolinhas no fundo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, #ff69b4 2px, transparent 2px),
+                radial-gradient(circle, #ffeb3b 2px, transparent 2px),
+                radial-gradient(circle, #00bcd4 2px, transparent 2px);
+            background-size: 80px 80px, 120px 120px, 100px 100px;
+            background-position: 0 0, 40px 40px, 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header/Hero Section */
+        header {
+            text-align: center;
+            padding: 100px 20px;
+            background-image: url('cineasta_kids_hero.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 4px solid #000;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2);
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            z-index: 0;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-image {
+            display: none;
+        }
+
+        .logo {
+            display: none;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #fff;
+            text-shadow: 4px 4px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+            margin-bottom: 10px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #fff;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .cta-button {
+            background: #ff69b4;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            border: 3px solid #000;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Seções */
+        section {
+            background: white;
+            border: 4px solid #000;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            color: #ff69b4;
+            text-shadow: 2px 2px 0px #000;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Seção de Problema & Solução */
+        #problema-solucao p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Tabela de Passos */
+        .steps-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .steps-table th,
+        .steps-table td {
+            border: 3px solid #000;
+            padding: 20px;
+            text-align: left;
+            background: #f9f9f9;
+        }
+
+        .steps-table th {
+            background: #ffeb3b;
+            color: #000;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .steps-table tr:nth-child(even) {
+            background: #f0f0f0;
+        }
+
+        .steps-table tr:hover {
+            background: #ffe0f0;
+        }
+
+        /* Blocos de Funcionalidades */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-block {
+            background: #fff9e6;
+            border: 3px solid #000;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .feature-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-block h3 {
+            color: #ff69b4;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .feature-block p {
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        /* Depoimentos */
+        .testimonial {
+            background: #e0f7fa;
+            border: 3px solid #00bcd4;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-style: italic;
+            box-shadow: 4px 4px 0px rgba(0, 150, 136, 0.2);
+        }
+
+        .testimonial-author {
+            font-style: normal;
+            font-weight: bold;
+            color: #00796b;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        /* Tabela de Planos */
+        .plans-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .plans-table th,
+        .plans-table td {
+            border: 3px solid #000;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .plans-table th {
+            background: #ff69b4;
+            color: white;
+            font-weight: bold;
+        }
+
+        .plans-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .plans-table .plan-name {
+            font-weight: bold;
+            color: #ff69b4;
+        }
+
+        .plans-table .highlight {
+            background: #ffe0f0;
+            font-weight: bold;
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: #f5f5f5;
+            border-left: 4px solid #ff69b4;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .faq-item strong {
+            color: #ff69b4;
+            font-size: 1.1em;
+        }
+
+        .faq-item p {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-top: 4px solid #ff69b4;
+        }
+
+        footer a {
+            color: #ffeb3b;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer .footer-cta {
+            font-size: 1.3em;
+            margin: 20px 0;
+            font-weight: bold;
+            color: #ff69b4;
+        }
+
+        /* Responsividade */
+        header p {
+            color: #fff;
+            text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            max-width: 600px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            header {
+                min-height: 350px;
+                padding: 50px 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            section h2 {
+                font-size: 1.5em;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.2em;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-table th,
+            .steps-table td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header/Hero -->
+        <header>
+            <img src="cineasta_kids_hero.jpg" alt="Cineasta Kids - Seu Filho é o Diretor" class="hero-image">
+            <h1>Atenção, Imaginação a Bordo! 🚀</h1>
+            <p class="subtitle">Seu Filho é o Diretor da Próxima História!</p>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">Chega de telas chatas! Aqui, a criatividade explode em histórias únicas, com avatares, áudio e o livro em PDF para imprimir e guardar!</p>
+            <a href="#" class="cta-button">🎬 DECOLAR! Crie Sua História Mágica GRÁTIS!</a>
+        </header>
+
+        <!-- Problema & Solução -->
+        <section id="problema-solucao">
+            <h2>O Monstro do Tédio Não Tem Vez Aqui! 👹</h2>
+            <p>Sabe aquela hora que a telinha fica sem graça? O <strong>"Cineasta Kids"</strong> é o super-herói que salva o dia!</p>
+            <p>A gente transforma as ideias mais malucas da criançada em aventuras incríveis. É como ter um estúdio de cinema dentro de casa, onde a única regra é: <strong>criar, criar e criar!</strong></p>
+        </section>
+
+        <!-- Como Funciona -->
+        <section id="como-funciona">
+            <h2>Receita Secreta para Histórias de Cinema (3 Passos) 🎞️</h2>
+            <table class="steps-table">
+                <thead>
+                    <tr>
+                        <th>Passo</th>
+                        <th>Título</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1.</strong></td>
+                        <td><strong>Desenhe o Herói: Crie Seu Avatar-Estrela!</strong></td>
+                        <td>Seu filho escolhe o visual do personagem principal. Pode ser um unicórnio astronauta ou um robô que dança!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2.</strong></td>
+                        <td><strong>Solte a Voz (ou o Dedo!): Diga o que Acontece na Aventura!</strong></td>
+                        <td>É só contar a ideia para o app: "O herói foi para a lua e encontrou um alienígena que só come brigadeiro!"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3.</strong></td>
+                        <td><strong>Tcharam!: A História Chegou!</strong></td>
+                        <td>Em um piscar de olhos, a história está pronta, com áudio para ouvir e o PDF para imprimir e mostrar para todo mundo!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Funcionalidades -->
+        <section id="funcionalidades">
+            <h2>Superpoderes do Cineasta Kids! ⚡</h2>
+            <div class="features">
+                <div class="feature-block">
+                    <h3>📖 PDF para Imprimir</h3>
+                    <p>Transforme a história digital em um livro de verdade! Perfeito para a hora de dormir.</p>
+                </div>
+                <div class="feature-block">
+                    <h3>🎧 Áudio Mágico</h3>
+                    <p>Uma voz amiga e divertida narra a aventura. É só apertar o play e viajar!</p>
+                </div>
+                <div class="feature-block">
+                    <h3>🦸 Avatar Exclusivo</h3>
+                    <p>O personagem do seu filho está em todas as histórias! Isso sim é ser protagonista!</p>
+                </div>
+                <div class="feature-block">
+                    <h3>✨ Histórias Novinhas</h3>
+                    <p>A IA do Cineasta Kids nunca repete a história. É sempre uma aventura inédita!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prova Social -->
+        <section id="prova-social">
+            <h2>O que a Turma e os Pais Aprovam! 💬</h2>
+            <div class="testimonial">
+                "Virou nosso momento favorito! Meu filho inventa, e a gente lê o livro impresso na cama. É pura conexão e criatividade!"
+                <div class="testimonial-author">— Carol S., Mãe do Pequeno Diretor (6 anos)</div>
+            </div>
+            <div class="testimonial">
+                "É muito mais legal que desenho! Eu que mando na história! E o meu avatar é o mais forte de todos!"
+                <div class="testimonial-author">— Miguel A., Super-Criador (8 anos)</div>
+            </div>
+            <p style="text-align: center; font-weight: bold; color: #ff69b4; margin-top: 30px; font-size: 1.2em;">
+                🎬 Mais de 10.000 Histórias Mágicas Criadas!
+            </p>
+        </section>
+
+        <!-- Planos -->
+        <section id="planos">
+            <h2>Escolha Seu Tesouro de Histórias! 💎</h2>
+            <table class="plans-table">
+                <thead>
+                    <tr>
+                        <th>Recurso</th>
+                        <th class="plan-name">Plano Aventureiro (FREE)</th>
+                        <th class="plan-name">Plano Estrela de Cinema (OURO)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Histórias por Mês</strong></td>
+                        <td>1 Premium + 2 Simples</td>
+                        <td class="highlight">Ilimitadas!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PDF para Imprimir</strong></td>
+                        <td>Apenas na Premium</td>
+                        <td class="highlight">Todas as histórias!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Áudio Narrado</strong></td>
+                        <td>Apenas na Premium</td>
+                        <td class="highlight">Todas as histórias!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Salvar na Biblioteca</strong></td>
+                        <td>Não</td>
+                        <td class="highlight">Sim!</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Preço</strong></td>
+                        <td><strong>GRÁTIS!</strong></td>
+                        <td class="highlight"><strong>R$ 19,90/mês</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#" class="cta-button" style="background: #00bcd4; margin-top: 30px;">✨ Quero o Tesouro Ilimitado! Assinar Plano Ouro!</a>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+            <h2>Perguntas Rápidas e Divertidas! ❓</h2>
+            <div class="faq-item">
+                <strong>É seguro? Tem palavrão?</strong>
+                <p><strong>NUNCA!</strong> Nossos filtros são super-heróis contra o conteúdo chato ou impróprio. Só tem diversão e aprendizado!</p>
+            </div>
+            <div class="faq-item">
+                <strong>O que é a "História Grátis"?</strong>
+                <p>É um presente! Você ganha uma história completa (Premium) para testar a magia. Depois, tem mais duas "Simples" para continuar a brincadeira!</p>
+            </div>
+            <div class="faq-item">
+                <strong>Posso parar de assinar?</strong>
+                <p>Sim, claro! É só dizer "Tchau!" para a renovação quando quiser. Sem drama, só aventura!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-cta">A Imaginação Está Chamando! Vamos Criar? 🚀</div>
+        <a href="#">Termos Mágicos</a> | <a href="#">Regras de Privacidade</a> | <a href="#">Fale com a Gente</a>
+        <p style="margin-top: 20px; font-size: 0.9em;">© 2025 Cineasta Kids. Todos os direitos de imaginação reservados! ✨</p>
+    </footer>
+</body>
+</html>
